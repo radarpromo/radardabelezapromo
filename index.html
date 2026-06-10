@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar da Beleza — Promoções Exclusivas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose: #e91e8c;
+    --rose-light: #f7a8d4;
+    --rose-pale: #fff0f7;
+    --rose-dark: #b5166e;
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-pale: #fdf7e3;
+    --cream: #fff8f2;
+    --text-dark: #2a1a24;
+    --text-mid: #6b4560;
+    --text-soft: #9e7090;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── decorative bg ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, #ffd6ec55 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 100% 80%, #f0d08022 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ── hero ── */
+  .hero {
+    text-align: center;
+    padding: 48px 0 32px;
+  }
+
+  .crown {
+    display: inline-block;
+    font-size: 40px;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 2px 8px #c9a84c55);
+  }
+
+  .brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text-mid);
+    line-height: 1.6;
+    max-width: 360px;
+    margin: 0 auto 28px;
+  }
+
+  /* ── gold divider ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto 32px;
+    max-width: 300px;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); }
+  .divider-diamond {
+    width: 7px; height: 7px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ── social proof ── */
+  .proof-bar {
+    background: white;
+    border: 1px solid #f0d08066;
+    border-radius: 50px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 36px;
+    box-shadow: 0 2px 16px #e91e8c0d;
+  }
+  .proof-avatars { display: flex; }
+  .proof-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -8px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+  .proof-avatars .proof-avatar:first-child { margin-left: 0; }
+  .av1 { background: var(--rose); }
+  .av2 { background: #d4537e; }
+  .av3 { background: var(--gold); }
+  .av4 { background: #e07ab0; }
+  .proof-text { font-size: 13px; color: var(--text-mid); }
+  .proof-text strong { color: var(--rose-dark); font-weight: 600; }
+
+  /* ── benefits ── */
+  .benefits { display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+
+  .benefit {
+    background: white;
+    border: 1px solid #f0d08044;
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    box-shadow: 0 1px 12px #e91e8c08;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .benefit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px #e91e8c14;
+  }
+
+  .benefit-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--rose-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .benefit-text h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rose-dark);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .benefit-text p {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  /* ── urgency badge ── */
+  .urgency {
+    background: linear-gradient(135deg, #fff0f7, #fdf7e3);
+    border: 1px solid var(--rose-light);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .urgency-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--rose);
+    margin-right: 6px;
+    vertical-align: middle;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .urgency p { font-size: 13.5px; color: var(--text-mid); line-height: 1.5; }
+  .urgency strong { color: var(--rose-dark); }
+
+  /* ── CTA button ── */
+  .cta-wrap { text-align: center; margin-bottom: 20px; }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #25d366, #1da851);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 18px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 4px 24px #25d36640;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.2px;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px #25d36650;
+  }
+  .cta-btn:active { transform: translateY(0); }
+
+  .wa-icon {
+    width: 22px; height: 22px;
+    flex-shrink: 0;
+  }
+
+  .cta-note {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 10px;
+    text-align: center;
+  }
+  .cta-note span { color: var(--gold); font-weight: 500; }
+
+  /* ── testimonials ── */
+  .section-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .testimonials { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+
+  .testi {
+    background: white;
+    border: 1px solid #f0d08044;
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 10px #00000006;
+  }
+  .testi-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .testi-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    font-size: 12px; font-weight: 600; color: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .testi-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+  .testi-stars { font-size: 11px; color: var(--gold); letter-spacing: 1px; }
+  .testi p { font-size: 13.5px; color: var(--text-mid); line-height: 1.55; font-style: italic; }
+  .testi p::before { content: '"'; }
+  .testi p::after { content: '"'; }
+
+  /* ── final CTA ── */
+  .final-cta {
+    text-align: center;
+    padding: 32px 20px;
+    background: linear-gradient(135deg, var(--rose-pale), var(--gold-pale));
+    border-radius: 20px;
+    border: 1px solid #f0d08055;
+  }
+  .final-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .final-cta h2 em { color: var(--rose); font-style: italic; }
+  .final-cta p { font-size: 14px; color: var(--text-mid); margin-bottom: 20px; line-height: 1.5; }
+
+  /* ── footer ── */
+  .footer { text-align: center; padding: 24px 0 0; }
+  .footer p { font-size: 11px; color: var(--text-soft); line-height: 1.8; }
+
+  /* responsive */
+  @media (max-width: 360px) {
+    .hero-title { font-size: 32px; }
+    .cta-btn { font-size: 15px; padding: 16px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="crown">👑</div>
+    <p class="brand">Radar da Beleza</p>
+    <h1 class="hero-title">Promoções de beleza que <em>somem em horas</em></h1>
+    <p class="hero-sub">Entre no grupo exclusivo e receba as melhores ofertas do Mercado Livre direto no seu WhatsApp — antes de todo mundo.</p>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- social proof -->
+    <div class="proof-bar">
+      <div class="proof-avatars">
+        <div class="proof-avatar av1">M</div>
+        <div class="proof-avatar av2">L</div>
+        <div class="proof-avatar av3">C</div>
+        <div class="proof-avatar av4">A</div>
+      </div>
+      <p class="proof-text"><strong>+1.200 mulheres</strong> já economizando toda semana</p>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <div class="benefits">
+    <div class="benefit">
+      <div class="benefit-icon">💄</div>
+      <div class="benefit-text">
+        <h3>Ofertas exclusivas</h3>
+        <p>Maquiagem, skincare, perfumes e cabelo com até 70% de desconto — selecionadas a dedo.</p>
+      </div>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">⚡</div>
+      <div class="benefit-text">
+        <h3>Avisos em tempo real</h3>
+        <p>Assim que uma promoção relâmpago aparece, você é a primeira a saber — antes que esgote.</p>
+      </div>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">✅</div>
+      <div class="benefit-text">
+        <h3>Só produtos verificados</h3>
+        <p>Tudo comprado no Mercado Livre, com avaliações checadas. Sem riscos, sem dor de cabeça.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- URGENCY -->
+  <div class="urgency">
+    <p><span class="urgency-dot"></span> <strong>Vagas limitadas.</strong> O grupo tem capacidade máxima de participantes — uma vez cheio, a fila de espera pode demorar semanas.</p>
+  </div>
+
+  <!-- CTA PRINCIPAL -->
+  <div class="cta-wrap">
+    <a href="https://chat.whatsapp.com/Ed8Z06ntIBJHtc3ccUwOaB?s=cl&p=i&ilr=0&amv=1" class="cta-btn">
+      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Quero entrar no grupo agora
+    </a>
+    <p class="cta-note">🔒 Gratuito · Sem spam · <span>Só promoções que valem a pena</span></p>
+  </div>
+
+  <div class="divider" style="margin: 32px auto;">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <p class="section-label">O que elas dizem</p>
+  <div class="testimonials">
+    <div class="testi">
+      <div class="testi-header">
+        <div class="testi-avatar" style="background: var(--rose);">JF</div>
+        <div>
+          <div class="testi-name">Juliana F.</div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <p>Economizei mais de R$180 só no primeiro mês. Peguei um kit de skincare pela metade do preço que estava no shopping!</p>
+    </div>
+    <div class="testi">
+      <div class="testi-header">
+        <div class="testi-avatar" style="background: #d4537e;">CM</div>
+        <div>
+          <div class="testi-name">Camila M.</div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <p>Entrei sem muita expectativa e fiquei chocada com a qualidade das ofertas. Todo dia tem pelo menos uma que vale muito a pena.</p>
+    </div>
+    <div class="testi">
+      <div class="testi-header">
+        <div class="testi-avatar" style="background: var(--gold);">RA</div>
+        <div>
+          <div class="testi-name">Renata A.</div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <p>Indiquei pras minhas amigas todas. O grupo é ativo, as promoções são reais e chegam antes de virar viral nas redes.</p>
+    </div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <div class="final-cta">
+    <h2>Sua próxima economia<br>começa <em>agora</em></h2>
+    <p>Clique abaixo e entre para o grupo. É grátis, rápido e você pode sair quando quiser.</p>
+    <a href="https://chat.whatsapp.com/Ed8Z06ntIBJHtc3ccUwOaB?s=cl&p=i&ilr=0&amv=1" class="cta-btn" style="max-width: 100%;">
+      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Entrar no grupo grátis
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>© 2026 Radar da Beleza · Promoções verificadas do Mercado Livre<br>
+    Ao entrar no grupo você concorda com as <a href="#" style="color: var(--rose); text-decoration: none;">regras da comunidade</a>.</p>
+  </div>
+
+</div>
+</body>
+</html>
