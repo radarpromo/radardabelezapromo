@@ -611,18 +611,18 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
   <section class="stats">
     <div class="stat-item">
       <div class="stat-icon">💄</div>
-      <p class="stat-value">12 promoções</p>
-      <p class="stat-label">encontradas hoje</p>
+      <p class="stat-value" id="statTotal">12 promoções</p>
+      <p class="stat-label">encontradas</p>
     </div>
     <div class="stat-item">
       <div class="stat-icon">💰</div>
-      <p class="stat-value">Até 68% OFF</p>
+      <p class="stat-value" id="statMaxDiscount">Até 68% OFF</p>
       <p class="stat-label">em produtos selecionados</p>
     </div>
     <div class="stat-item">
-      <div class="stat-icon">⚡</div>
-      <p class="stat-value">Rápido</p>
-      <p class="stat-label">promoções encerram em minutos</p>
+      <div class="stat-icon">💸</div>
+      <p class="stat-value" id="statAvgSavings">Economia média: R$ 82</p>
+      <p class="stat-label">por produto</p>
     </div>
   </section>
 
@@ -699,6 +699,28 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
     return 'Enviada no grupo há ' + diffDays + ' dias';
   }
 
+  // Preenche o bloco de estatísticas com os números vindos do backend (já calculados a partir
+  // do mesmo pool de ofertas usado no carrossel). Cada valor é atualizado de forma independente:
+  // se um campo vier nulo (ex.: sem ofertas com desconto válido), o texto estático correspondente
+  // permanece no DOM.
+  function updateStats(stats) {
+    if (!stats) return;
+
+    var totalEl = document.getElementById('statTotal');
+    var maxDiscountEl = document.getElementById('statMaxDiscount');
+    var avgSavingsEl = document.getElementById('statAvgSavings');
+
+    if (totalEl && typeof stats.totalFound === 'number') {
+      totalEl.textContent = stats.totalFound + (stats.totalFound === 1 ? ' promoção' : ' promoções');
+    }
+    if (maxDiscountEl && stats.maxDiscount) {
+      maxDiscountEl.textContent = 'Até ' + stats.maxDiscount + ' OFF';
+    }
+    if (avgSavingsEl && stats.avgSavings) {
+      avgSavingsEl.textContent = 'Economia média: ' + stats.avgSavings;
+    }
+  }
+
   // Busca o JSON de ofertas publicado pelo backend e preenche os cards.
   // Qualquer falha (rede, parse, JSON vazio) mantém os cards estáticos de fallback.
   async function loadOffers(track) {
@@ -707,6 +729,8 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
       if (!res.ok) return;
 
       var json = await res.json();
+      updateStats(json && json.stats);
+
       var offers = json && Array.isArray(json.offers) ? json.offers : [];
       if (offers.length === 0) return;
 
