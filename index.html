@@ -362,7 +362,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
     padding: 5px 8px;
     text-align: center;
   }
-  .offer-status::before { content: '⏱ '; }
+  .offer-status::before { content: '📲 '; }
 
   /* ============================================================
      STATS
@@ -681,23 +681,22 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
   //var OFFERS_URL = "TODO: colar aqui a URL pública do latest-offers.json no Supabase Storage";
   var OFFERS_URL = "https://ollcttlmkiopjyfpzntx.supabase.co/storage/v1/object/public/product-images/landing/grupo-beauty/latest-offers.json"
 
-  // Calcula "Encerrada há X" a partir do timestamp real, no momento em que a página carrega
-  // (não usa um texto pronto do backend, pra não ficar desatualizado entre uma geração do JSON e outra)
+  // Calcula "Enviada no grupo hoje/ontem/há X dias" a partir do timestamp real, no momento em
+  // que a página carrega. Compara por dia de calendário (não por horas) — o JSON só é regerado
+  // 1x/dia, então granularidade de hora ("há 27 horas") ficaria inconsistente de um dia pro outro.
+  function startOfDay(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+  }
+
   function formatClosedLabel(iso) {
     if (!iso) return '';
-    var then = new Date(iso).getTime();
-    if (isNaN(then)) return '';
+    var then = new Date(iso);
+    if (isNaN(then.getTime())) return '';
 
-    var diffMin = Math.floor((Date.now() - then) / 60000);
-    if (diffMin < 1) return 'Encerrada agora mesmo';
-    if (diffMin < 60) return 'Encerrada há ' + diffMin + (diffMin === 1 ? ' minuto' : ' minutos');
-
-    var diffHours = Math.floor(diffMin / 60);
-    if (diffHours < 24) return 'Encerrada há ' + diffHours + (diffHours === 1 ? ' hora' : ' horas');
-
-    var diffDays = Math.floor(diffHours / 24);
-    if (diffDays === 1) return 'Encerrada ontem';
-    return 'Encerrada há ' + diffDays + ' dias';
+    var diffDays = Math.round((startOfDay(new Date()) - startOfDay(then)) / 86400000);
+    if (diffDays <= 0) return 'Enviada no grupo hoje';
+    if (diffDays === 1) return 'Enviada no grupo ontem';
+    return 'Enviada no grupo há ' + diffDays + ' dias';
   }
 
   // Busca o JSON de ofertas publicado pelo backend e preenche os cards.
