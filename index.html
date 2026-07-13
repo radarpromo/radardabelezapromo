@@ -282,6 +282,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
      OFFER CARD
      ============================================================ */
   .offer-card {
+    position: relative;
     scroll-snap-align: start;
     flex: 0 0 62%;
     max-width: 210px;
@@ -316,7 +317,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
     display: flex;
     align-items: baseline;
     gap: 8px;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     flex-wrap: wrap;
   }
   .old-price {
@@ -330,15 +331,26 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
     color: var(--rose-dark);
   }
   .discount {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    color: #1da851;
-    background: #e8f9ef;
-    border-radius: 6px;
-    padding: 2px 7px;
-    margin-bottom: 8px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    color: white;
+    background: linear-gradient(135deg, var(--rose-dark), var(--rose));
+    border-radius: 10px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 14px #b5166e55;
+    transform: rotate(-3deg);
   }
+  .discount:empty { display: none; }
+  .discount::before { content: '🔥 '; }
+  .discount::after { content: ' OFF'; }
   .offer-status {
     display: block;
     font-size: 11px;
@@ -350,7 +362,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
     padding: 5px 8px;
     text-align: center;
   }
-  .offer-status::before { content: '⚡ '; }
+  .offer-status::before { content: '⏱ '; }
 
   /* ============================================================
      STATS
@@ -528,7 +540,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
             <span class="new-price">{{NEW_PRICE}}</span>
           </div>
           <span class="discount">{{DISCOUNT}}</span>
-          <span class="offer-status">Oferta encerrada</span>
+          <span class="offer-status">{{CLOSED_LABEL}}</span>
         </div>
       </div>
       <div class="offer-card">
@@ -540,7 +552,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
             <span class="new-price">{{NEW_PRICE}}</span>
           </div>
           <span class="discount">{{DISCOUNT}}</span>
-          <span class="offer-status">Oferta encerrada</span>
+          <span class="offer-status">{{CLOSED_LABEL}}</span>
         </div>
       </div>
       <div class="offer-card">
@@ -552,7 +564,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
             <span class="new-price">{{NEW_PRICE}}</span>
           </div>
           <span class="discount">{{DISCOUNT}}</span>
-          <span class="offer-status">Oferta encerrada</span>
+          <span class="offer-status">{{CLOSED_LABEL}}</span>
         </div>
       </div>
       <div class="offer-card">
@@ -564,7 +576,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
             <span class="new-price">{{NEW_PRICE}}</span>
           </div>
           <span class="discount">{{DISCOUNT}}</span>
-          <span class="offer-status">Oferta encerrada</span>
+          <span class="offer-status">{{CLOSED_LABEL}}</span>
         </div>
       </div>
       <div class="offer-card">
@@ -576,7 +588,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
             <span class="new-price">{{NEW_PRICE}}</span>
           </div>
           <span class="discount">{{DISCOUNT}}</span>
-          <span class="offer-status">Oferta encerrada</span>
+          <span class="offer-status">{{CLOSED_LABEL}}</span>
         </div>
       </div>
     </div>
@@ -591,7 +603,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
       <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
       </svg>
-      Quero receber essas ofertas
+      Quero economizar também
     </a>
   </div>
 
@@ -653,7 +665,7 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
       <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
       </svg>
-      Entrar no grupo grátis
+      Quero receber as próximas ofertas
     </a>
   </div>
 
@@ -668,6 +680,26 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
 <script>
   //var OFFERS_URL = "TODO: colar aqui a URL pública do latest-offers.json no Supabase Storage";
   var OFFERS_URL = "https://ollcttlmkiopjyfpzntx.supabase.co/storage/v1/object/public/product-images/landing/grupo-beauty/latest-offers.json"
+
+  // Calcula "Encerrada há X" a partir do timestamp real, no momento em que a página carrega
+  // (não usa um texto pronto do backend, pra não ficar desatualizado entre uma geração do JSON e outra)
+  function formatClosedLabel(iso) {
+    if (!iso) return '';
+    var then = new Date(iso).getTime();
+    if (isNaN(then)) return '';
+
+    var diffMin = Math.floor((Date.now() - then) / 60000);
+    if (diffMin < 1) return 'Encerrada agora mesmo';
+    if (diffMin < 60) return 'Encerrada há ' + diffMin + (diffMin === 1 ? ' minuto' : ' minutos');
+
+    var diffHours = Math.floor(diffMin / 60);
+    if (diffHours < 24) return 'Encerrada há ' + diffHours + (diffHours === 1 ? ' hora' : ' horas');
+
+    var diffDays = Math.floor(diffHours / 24);
+    if (diffDays === 1) return 'Encerrada ontem';
+    return 'Encerrada há ' + diffDays + ' dias';
+  }
+
   // Busca o JSON de ofertas publicado pelo backend e preenche os cards.
   // Qualquer falha (rede, parse, JSON vazio) mantém os cards estáticos de fallback.
   async function loadOffers(track) {
@@ -692,13 +724,14 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
         var oldPrice = card.querySelector('.old-price');
         var newPrice = card.querySelector('.new-price');
         var discount = card.querySelector('.discount');
+        var offerStatus = card.querySelector('.offer-status');
 
         if (img) { img.src = offer.imageUrl || ''; img.alt = offer.title || ''; }
         if (h3) h3.textContent = offer.title || '';
         if (oldPrice) oldPrice.textContent = offer.oldPrice || '';
         if (newPrice) newPrice.textContent = offer.newPrice || '';
         if (discount) discount.textContent = offer.discount || '';
-        // ".offer-status" ("Oferta encerrada") não é tocado — é texto fixo, não placeholder
+        if (offerStatus) offerStatus.textContent = formatClosedLabel(offer.closedAt);
 
         track.appendChild(card);
       });
