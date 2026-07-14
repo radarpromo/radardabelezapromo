@@ -14,10 +14,15 @@
   gtag('config', 'G-8K5L80HGKG');
 
   function trackWhatsApp(location) {
+    // Google Analytics
     gtag('event', 'whatsapp_click', {
       event_category: 'CTA',
       event_label: location,
       value: 1
+    });
+    // Meta Pixel
+    fbq('trackCustom', 'WhatsAppClick', {
+      location: location
     });
   }
 </script>
