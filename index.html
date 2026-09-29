@@ -516,40 +516,6 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
   }
   .sticky-cta .cta-btn { max-width: 440px; padding: 15px 24px; }
 
-  /* ============================================================
-     AUTO-REDIRECT (aviso com contagem + opção de ficar na página)
-     ============================================================ */
-  .redirect-notice {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
-    background: #1da851;
-    color: white;
-    font-size: 13.5px;
-    font-weight: 500;
-    box-shadow: 0 2px 12px #0000001f;
-    transition: transform 0.25s ease;
-  }
-  .redirect-notice[hidden] { display: none; }
-  .redirect-notice button {
-    background: #ffffff26;
-    color: white;
-    border: 1px solid #ffffff80;
-    border-radius: 50px;
-    padding: 5px 12px;
-    font: inherit;
-    font-size: 12.5px;
-    cursor: pointer;
-  }
-
   /* responsive */
   @media (max-width: 360px) {
     .hero-title { font-size: 23px; }
@@ -752,11 +718,6 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
   </a>
 </div>
 
-<!-- AVISO DE AUTO-REDIRECT — exibido após o load (ver initAutoRedirect) -->
-<div class="redirect-notice" id="redirectNotice" hidden>
-  <span>Abrindo o grupo no WhatsApp em <strong id="redirectCount">3</strong>…</span>
-  <button type="button" id="redirectCancel">Ficar na página</button>
-</div>
 
 <script>
   //var OFFERS_URL = "TODO: colar aqui a URL pública do latest-offers.json no Supabase Storage";
@@ -938,37 +899,36 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
     });
   }
 
-
-  // Redirect automático para o grupo após o load. Usa eventos PRÓPRIOS (auto_redirect /
-  // AutoRedirect) — nunca trackWhatsApp — pra que whatsapp_click continue medindo só cliques
-  // reais. Qualquer interação do usuário (toque, roda do mouse, tecla) cancela: quem interagiu
-  // está engajado com a página e não deve ser arrancado dela.
+  // Redirect silencioso para o grupo após o load (sem aviso na tela, pra não induzir a pessoa a
+  // sair antes da hora). Usa eventos PRÓPRIOS (auto_redirect / AutoRedirect) — nunca
+  // trackWhatsApp — pra que whatsapp_click continue medindo só cliques reais. Qualquer interação
+  // do usuário (toque, roda do mouse, tecla) cancela: quem interagiu está engajado com a página e
+  // não deve ser arrancado dela.
   function initAutoRedirect() {
     if (!AUTO_REDIRECT_ENABLED) return;
+    if (document.visibilityState !== 'visible') return;
 
-    var notice = document.getElementById('redirectNotice');
-    var countEl = document.getElementById('redirectCount');
-    var cancelBtn = document.getElementById('redirectCancel');
-    if (!notice || !countEl || !cancelBtn) return;
-
-    var remaining = AUTO_REDIRECT_SECONDS;
-    var intervalId = null;
+    var timeoutId = null;
     var finished = false;
     var cancelEvents = ['touchstart', 'wheel', 'keydown', 'mousedown'];
 
     function stop() {
       finished = true;
-      clearInterval(intervalId);
-      notice.hidden = true;
+      clearTimeout(timeoutId);
       cancelEvents.forEach(function (type) { document.removeEventListener(type, onUserInteraction, true); });
       document.removeEventListener('visibilitychange', onVisibilityChange);
     }
 
-    function cancel(reason) {
+    function onUserInteraction() {
       if (finished) return;
       stop();
-      gtag('event', 'auto_redirect_cancel', { event_category: 'redirect', event_label: reason });
-      fbq('trackCustom', 'AutoRedirectCancel', { reason: reason });
+      gtag('event', 'auto_redirect_cancel', { event_category: 'redirect', event_label: 'interaction' });
+      fbq('trackCustom', 'AutoRedirectCancel', { reason: 'interaction' });
+    }
+
+    function onVisibilityChange() {
+      // aba em background ou pré-carregamento: não redirecionar nem contar como cancelamento
+      if (document.visibilityState !== 'visible') stop();
     }
 
     function redirect() {
@@ -992,34 +952,9 @@ src="https://www.facebook.com/tr?id=2051329395594872&ev=PageView&noscript=1"
       setTimeout(go, 800);
     }
 
-    function onUserInteraction(e) {
-      // toque no próprio aviso é tratado pelos handlers do aviso/botão
-      if (notice.contains(e.target)) return;
-      cancel('interaction');
-    }
-
-    function onVisibilityChange() {
-      // aba em background ou pré-carregamento: não redirecionar nem contar como cancelamento
-      if (document.visibilityState !== 'visible') stop();
-    }
-
-    if (document.visibilityState !== 'visible') return;
-
-    cancelBtn.addEventListener('click', function () { cancel('button'); });
     cancelEvents.forEach(function (type) { document.addEventListener(type, onUserInteraction, true); });
     document.addEventListener('visibilitychange', onVisibilityChange);
-
-    countEl.textContent = String(remaining);
-    notice.hidden = false;
-
-    intervalId = setInterval(function () {
-      remaining -= 1;
-      if (remaining <= 0) {
-        redirect();
-        return;
-      }
-      countEl.textContent = String(remaining);
-    }, 1000);
+    timeoutId = setTimeout(redirect, AUTO_REDIRECT_SECONDS * 1000);
   }
 
   syncWhatsAppLinks();
